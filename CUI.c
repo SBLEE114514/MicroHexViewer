@@ -15,9 +15,7 @@ void printscreen(){
         putchar(' ');
         for(i=0;i<n&&i<16;++i){
             char ch=*(p+i+pp);
-            if(!isprint(ch)){
-                ch='.';
-            }
+            if(!isprint(ch)) ch='.';
             putchar(ch);
         }
         putchar('\n');
@@ -28,25 +26,18 @@ void getcmd(char* p,int* op){
     static char str[20];
     scanf("%s",str);
     *p=str[0];
-    if(*p!='.') scanf("%d",op);
+    if(*p!='.'&&*p!='E') scanf("%d",op);
 }
 
 char pageup(){
-    if(addr==0){
-        return 1;
-    }
-    addr-=16;
-    return 0;
+    if(addr==0) return 1;
+    return addr-=16,0;
 }
 char pagedown(){
-    if((addr^(addr&15))>=size){
-        return 1;
-    }
-    addr+=16;
-    return 0;
+    if((addr^(addr&15))>=size) return 1;
+    return addr+=16,0;
 }
 char go(unsigned int ad){
     if(ad>=size) return 1;
-    addr=ad;
-    return 0;
+    return addr=ad,0;
 }

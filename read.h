@@ -6,3 +6,4 @@ extern BYTE buffer[];
 int init(const char* filename);
 BYTE* get(unsigned addr,unsigned int *n);
 extern unsigned int size;
+void clear();

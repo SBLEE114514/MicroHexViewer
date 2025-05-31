@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "read.h"
-
+#include "CUI.h"
+#undef min
 BYTE buffer[BUFFER_SIZE<<1];
 int cnt;
 unsigned int size=0;
@@ -76,14 +77,20 @@ BYTE* get(unsigned int addr,unsigned int *n){
         exit(1);
     }
     fread(buffer,1,BUFFER_SIZE,fp);
-    if(idx+*n>=4096&&blo+1<cnt){
+    if(idx+*n>=BUFFER_SIZE&&blo+1<cnt){
         if((fp=fopen(concat("./tmp/file",to_str(blo+1)),"rb"))==NULL){
             fputs("failed!",stderr);
             fclose(fp);
             exit(1);
         }
-        *n=min(4096,4096-idx+16+fread(buffer+BUFFER_SIZE,1,BUFFER_SIZE,fp));
     }
     fclose(fp);
+    *n=min(size-addr,MAX_ROWS<<4);
     return buffer+idx;
+}
+void clear(){
+    while(cnt--){
+        char* str=concat("./tmp/file",to_str(cnt));
+        if(remove(str)==-1) exit(1);
+    }
 }

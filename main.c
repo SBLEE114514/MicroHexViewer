@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-// #include <stdlib.h>
 #include "read.h"
 #include "CUI.h"
 
@@ -16,6 +13,7 @@ int main(int argc,char* argv[]){
         if(flag=='E') break;
         if(flag=='.') flag=lst;
         lst=flag;
+        unsigned int _=addr;
         if(flag=='G'){
             if(go(op)){
                 puts("failed");
@@ -24,13 +22,19 @@ int main(int argc,char* argv[]){
             while(op--)
             if(pageup()){
                 puts("failed");
+                addr=_;
+                break;
             }
         }else if(flag=='D'){
+            while(op--)
             if(pagedown()){
                 puts("failed");
+                addr=_;
+                break;
             }
         }else{
             puts("Unknown");
         }
     }while(1);
+    clear();
 }
